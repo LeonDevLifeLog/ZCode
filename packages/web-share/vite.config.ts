@@ -32,10 +32,10 @@ export default defineConfig(({ mode }) => {
     // 这样 dev:web-share 与 Docker 生产构建都从同一份 public 资源读取图标。
     publicDir: resolve(REPO_ROOT, "packages/web/public"),
     plugins: [react(), tailwindcss()],
+    // shared 统一走包 exports；文件别名会把子路径误拼成 index.ts/mcp-apps，导致 bootstrap 构建失败。
     resolve: {
       alias: {
         "@": resolve(REPO_ROOT, "packages/ui/src"),
-        "@zcode/shared": resolve(REPO_ROOT, "packages/shared/src/index.ts"),
         // Share 镜像不安装 @zcode/ui（它会带入 services/rpc 闭包），子路径导入必须显式指向源码。
         "@zcode/ui/useTheme": resolve(REPO_ROOT, "packages/ui/src/useTheme.ts"),
         "@zcode/ui/conversation-share-readonly": resolve(

@@ -27,6 +27,12 @@
 - Share 与完整 Web 共用协议类型和已确认的只读展示实现，不共用运行态 service。
 - Remote 构建继续保留 CUA secret 与 CUA Git 依赖。
 
+## Shared 公共入口解析
+
+- `@zcode/shared` 的根入口和子路径由 `packages/shared/package.json` 的 `exports` 统一定义。
+- Share 的 Vite 配置使用包导出解析，不将 `@zcode/shared` 别名指向单个 `index.ts` 文件，
+  避免子路径被拼成 `index.ts/mcp-apps` 等无效路径。
+
 ## 构建链路
 
 ```text
@@ -45,3 +51,5 @@ Share Dockerfile 不再需要 `zcode_cua_git_user` 和 `zcode_cua_git_token` Bui
 - `/cn/share`、`/share`、callback、mock fixture 和资源路径保持可用。
 - 完整 Web 和 Remote v4 的构建依赖边界不变。
 - Share 页面不创建 Host、Agent、service 或 remote session。
+- Share 的 Vite 构建可解析 `@zcode/shared` 根入口及 `mcp-apps`、`zcode-protocol-v4`、
+  `model-config`、`config-schema` 子路径，`pnpm build:web-share` 构建成功。
